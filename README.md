@@ -15,7 +15,9 @@ By default the script is in normal/remote mode. Pressing 'k' puts the script in 
 
 **enter**: OK-enter
 
-**delete**: backspace (keyboard mode)
+**delete**: backspace (in keyboard mode)
+
+**insert**: leave keyboard mode
 
 **space**: play-pause
 
