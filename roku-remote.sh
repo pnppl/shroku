@@ -113,9 +113,9 @@ setIP () {
   noEcho
 }
 
-# handle onscreen keyboard
+# handle onscreen keyboard events
 kb () {
-  echo 'entering onscreen keyboard mode; Ins to quit'
+  echo 'entering keyboard mode; Ins to quit'
   while :; do
     getKey
     # change key to roku keypress string (or my control code)
@@ -150,7 +150,7 @@ kb () {
       '`')  key='back' ;;
       '[3~') key='backspace' ;; # Del key
       '[2~') # this isn't working consistently
-        echo 'exiting onscreen keyboard mode' 
+        echo 'exiting keyboard mode' 
         return 0
       ;;
       *) key='' ;;
