@@ -1,17 +1,16 @@
 #!/bin/bash
 # Interactive terminal IP remote for Roku TVs.
-# Depends: bash curl
+# Depends: bash curl grep
 # Use bash 4.4+ for best performance
 
 # TODO:
-# power toggle
 # add utf8 to keyboard? need some depend for proper url encoding
 # ^ could improve search interface. could also add search operators, voice search (triggered by search keypress which isn't used right now)
 # improve behavior when holding key down/clean up terminal printing
 # backspace/esc key??? can use esc with escape character but then it gets triggered by mistake a lot
 
 ### CONFIG: ###
-roku='192.168.0.8' # 8 in bedroom, 12 in living room
+roku='192.168.0.12'
 ###############
 
 bash44=false
@@ -39,7 +38,7 @@ getKey () {
 }
 
 # seamless search
-# no punctuation support currently
+# no punctuation support
 search () {
   read -ep 'search term: '
   term=${REPLY//' '/'+'}
@@ -102,6 +101,16 @@ kb () {
   done
 }
 
+# quick and dirty power toggle
+power () {
+  on=$(curl --silent "$roku:8060/query/device-info" | grep PowerOn)
+  if [[ $on == '<power-mode>PowerOn</power-mode>' ]]; then
+    curl -d '' "$roku:8060/keypress/powerOff"
+  else
+    curl -d '' "$roku:8060/keypress/powerOn"
+  fi
+}
+
 #### main ####
 roku=${1:-$roku} # set IP to first arg or fallback to config if no args
 echo '* Roku remote *'
@@ -128,8 +137,8 @@ while :; do
     '-') key='volumeDown' ;;
     '=') key='volumeUp' ;;
     'm') key='volumeMute' ;;
-    'o') key='powerOff' ;;
-    'O') key='powerOn' ;; # make into toggle with /query/device-info
+#    'o') key='powerOff' ;;
+#    'O') key='powerOn' ;; # make into toggle with /query/device-info
     ']') key='channelUp' ;;
     '[') key='channelDown' ;;
     '0') key='inputTuner' ;;
@@ -144,20 +153,22 @@ while :; do
     '[C') key='right' ;;
     '`') key='back' ;;
     'k') key='ONSCREEN_KB' ;;
-#   'o') key='POWER';;
+    'o') key='POWER';;
     's') key='SEARCH' ;;
     'S') key='SEARCH_SEAMLESS' ;;
     'a') key='IP' ;;
+    'y') key='YOUTUBE' ;;
     *) key='NULL' ;;
   esac
     
 # send keypresses/call helpers
   case $key in
     'ONSCREEN_KB') kb ;;
-    'POWER') ;; # implement
-    'SEARCH') curl -gd '' "$roku:8060/search/browse?keyword=" ;;
+    'POWER') power ;;
+    'SEARCH') curl -d '' "$roku:8060/search/browse?keyword=" ;;
     'SEARCH_SEAMLESS') search ;;
     'IP') setIP ;;
+    'YOUTUBE') curl -d '' "$roku:8060/launch/837" ;;
     'NULL') ;;
     *) curl -gd '' "$roku:8060/keypress/$key" ;;
   esac
