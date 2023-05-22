@@ -3,6 +3,11 @@ Depends: bash curl grep
 
 Use bash 4.4+ for best performance
 
+### Usage:
+You can supply the IP address of your Roku as an argument to the script, by editing the script, or by pressing 'a' while the script is running and not in keyboard mode.
+
+By default the script is in normal/remote mode. Pressing 'k' puts the script in keyboard mode. In this mode, printable ASCII characters can be typed into the Roku and most of the controls listed below will not work until you exit keyboard mode.
+
 ### Controls:
 **arrows**: arrows
 
@@ -10,7 +15,7 @@ Use bash 4.4+ for best performance
 
 **enter**: OK-enter
 
-**delete**: backspace
+**delete**: backspace (keyboard mode)
 
 **space**: play-pause
 
