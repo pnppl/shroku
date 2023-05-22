@@ -9,13 +9,12 @@
 # ^ could improve search interface. could also add search operators, voice search (triggered by search keypress which isn't used right now)
 # improve behavior when holding key down/clean up terminal printing
 # backspace/esc key??? can use esc with escape character but then it gets triggered by mistake a lot
-# set IP with arg or interactively
 
 ### CONFIG: ###
 roku='192.168.0.8' # 8 in bedroom, 12 in living room
-bash44=true
 ###############
 
+bash44=false
 key='NULL'
 escape=$(printf "\u1b")
 
@@ -45,6 +44,13 @@ search () {
   read -ep 'search term: '
   term=${REPLY//' '/'+'}
   curl -gd '' "$roku:8060/search/browse?keyword=$term"
+}
+
+# set IP interactively
+setIP () {
+  read -ep 'new IP: '
+  roku=$REPLY
+  echo "controlling $roku"
 }
 
 # handle onscreen keyboard
@@ -97,9 +103,15 @@ kb () {
 }
 
 #### main ####
+roku=${1:-$roku} # set IP to first arg or fallback to config if no args
 echo '* Roku remote *'
 echo "controlling $roku"
 echo '(controls here)'
+
+if [ ${BASH_VERSION:0:1} -ge 4 ] && [ ${BASH_VERSION:2:1} -ge 4 ]; then
+  bash44=true
+fi 
+
 while :; do
   getKey
   
@@ -135,15 +147,17 @@ while :; do
 #   'o') key='POWER';;
     's') key='SEARCH' ;;
     'S') key='SEARCH_SEAMLESS' ;;
+    'a') key='IP' ;;
     *) key='NULL' ;;
   esac
     
-# send keypresses
+# send keypresses/call helpers
   case $key in
     'ONSCREEN_KB') kb ;;
     'POWER') ;; # implement
     'SEARCH') curl -gd '' "$roku:8060/search/browse?keyword=" ;;
     'SEARCH_SEAMLESS') search ;;
+    'IP') setIP ;;
     'NULL') ;;
     *) curl -gd '' "$roku:8060/keypress/$key" ;;
   esac
