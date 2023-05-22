@@ -61,7 +61,7 @@ controls () {
   echo -ne $B"arrows"$FF":arrows  "
   echo -ne $B"\`"$FF":back  "
   echo -ne $B"enter"$FF":OK-enter  "
-  echo -ne $B"Del"$FF":backspace  "
+  echo -ne $B"del"$FF":backspace  "
   echo -ne $B"space"$FF":play-pause  "
   echo -ne $B","$FF":rewind  "
   echo -ne $B"."$FF":forward  "
