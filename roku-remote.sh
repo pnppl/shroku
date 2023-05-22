@@ -133,7 +133,7 @@ while :; do
     '`') key='back' ;;
     'k') key='ONSCREEN_KB' ;;
 #   'o') key='POWER';;
-    's') key='search' ;;
+    's') key='SEARCH' ;;
     'S') key='SEARCH_SEAMLESS' ;;
     *) key='NULL' ;;
   esac
