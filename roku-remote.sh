@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 # Interactive terminal IP remote for Roku TVs.
 # Depends: bash curl grep
 # Use bash 4.4+ for best performance
@@ -9,11 +9,15 @@
 # backspace/esc key??? can use esc with escape character but then it gets triggered by mistake a lot
 
 ###### CONFIG: ######
-roku='192.168.0.12' # also settable as sole arg or by pressing 'a'
+roku='192.168.68.61' # also settable as sole arg or by pressing 'a'
 debug=false         # currently just controls if echo is on
 #####################
 
-bash44=false
+bash44=true
+# Playlet
+youtube=693751
+# Official app
+#youtube=837
 escape=$(printf "\u1b")
 
 # handle character input
@@ -21,7 +25,7 @@ getKey () {
   # read one char
   read -rsn1
   key=$REPLY
-  
+
   # get arrows etc
   if [[ $REPLY == $escape ]] && [[ $bash44 = true ]]; then
     if [[ $bash44 = true ]]; then
@@ -36,7 +40,7 @@ getKey () {
   fi
 }
 
-noEcho () {  
+noEcho () {
   if [[ $debug = false ]]; then
     stty -echo
   fi
@@ -57,7 +61,7 @@ controls () {
   F='\033[4m\033[1m' # bold, underline
   B='\033[1m' # bold
   FF='\033[0m' # clear
-  
+
   echo -ne $B"arrows"$FF":arrows  "
   echo -ne $B"\`"$FF":back  "
   echo -ne $B"enter"$FF":OK-enter  "
@@ -77,9 +81,10 @@ controls () {
   echo -ne $F"i"$FF"nfo-*  "
   echo -ne $F"k"$FF"eyboard-mode  "
   echo -ne $F"m"$FF"ute  "
-  echo -ne $F"o"$FF"ff  " 
+  echo -ne $F"o"$FF"ff  "
   echo -ne $F"O"$FF"n  "
   echo -ne $F"p"$FF"ower  "
+  echo -ne $F"Q"$FF"uit  "
   echo -ne $F"r"$FF"eplay  "
   echo -ne $F"s"$FF"earch  "
   echo -ne $F"S"$FF"earch-inline  "
@@ -155,7 +160,7 @@ kb () {
       ;;
       *) key='' ;;
     esac
-    
+
     if [[ $key != "" ]]; then
       curl -gd '' "$roku:8060/keypress/$key"
     fi
@@ -171,11 +176,11 @@ noEcho # turn tty echo off if debug=false
 
 if [ ${BASH_VERSION:0:1} -ge 4 ] && [ ${BASH_VERSION:2:1} -ge 4 ]; then
   bash44=true
-fi 
+fi
 
 while :; do
   getKey
-  
+
   # change key to roku keypress string to print, or do task and set to 
   case $REPLY in
     'h') key='home' ;;
@@ -209,12 +214,13 @@ while :; do
     's') curl -d '' "$roku:8060/search/browse?keyword="; key='' ;; # go to search
     'S') search; key='' ;;
     'a') setIP; key='' ;;
-    'y') curl -d '' "$roku:8060/launch/837"; key='' ;; # youtube
+    'y') curl -d '' "$roku:8060/launch/$youtube"; key='' ;; # youtube
     'd') debug; key='' ;;
     'c') controls; key='' ;;
+    'Q') stty echo; exit 0 ;;
     *) key='' ;;
   esac
-  if [[ -n $key ]]; then 
-    curl -gd '' "$roku:8060/keypress/$key" 
+  if [[ -n $key ]]; then
+    curl -gd '' "$roku:8060/keypress/$key"
   fi
 done
