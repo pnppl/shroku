@@ -11,14 +11,13 @@
 ###### CONFIG: ######
 roku='192.168.68.61' # also settable as sole arg or by pressing 'a'
 debug=false         # currently broken
-#####################
-
 bash44=true
 # Playlet
 youtube=693751
 # Official app
 #youtube=837
 escape=$(printf "\u1b")
+#####################
 
 # handle character input
 getKey () {
