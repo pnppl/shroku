@@ -78,7 +78,7 @@ controls () {
 #  echo -ne $F"d"$FF"ebug  "
   echo -ne $F"f"$FF"ind-remote  "
   echo -ne $F"h"$FF"ome  "
-  echo -ne $F"i"$FF"nfo-*  "
+  echo -ne $F"i"$FF"nfo-"$F"*"$FF"  "
   echo -ne $F"k"$FF"eyboard-mode  "
   echo -ne $F"m"$FF"ute  "
   echo -ne $F"o"$FF"ff  "
@@ -191,6 +191,7 @@ while :; do
     '')  key='select' ;; # Enter key
     'r') key='instantReplay' ;;
     'i') key='info' ;;
+    '*') key='info' ;;
     'f') key='findRemote' ;;
     '-') key='volumeDown' ;;
     '=') key='volumeUp' ;;
