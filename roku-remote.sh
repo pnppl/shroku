@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/bin/bash
 # Interactive terminal IP remote for Roku TVs.
 # Depends: bash curl grep
 # Use bash 4.4+ for best performance
