@@ -10,7 +10,7 @@
 
 ###### CONFIG: ######
 roku='192.168.68.61' # also settable as sole arg or by pressing 'a'
-debug=false         # currently just controls if echo is on
+debug=false         # currently broken
 #####################
 
 bash44=true
@@ -41,13 +41,13 @@ getKey () {
 }
 
 noEcho () {
-  if [[ $debug = false ]]; then
+  if [ "$debug" = false ]; then
     stty -echo
   fi
 }
 
 debug () {
-  if [[ $debug = false ]]; then
+  if [ "$debug" = false ]; then
     debug=true
     stty echo
   else
@@ -75,7 +75,7 @@ controls () {
   echo -ne $B"]"$FF":channel-up  "
   echo
   echo -ne $F"a"$FF"ddress  "
-  echo -ne $F"d"$FF"ebug  "
+#  echo -ne $F"d"$FF"ebug  "
   echo -ne $F"f"$FF"ind-remote  "
   echo -ne $F"h"$FF"ome  "
   echo -ne $F"i"$FF"nfo-*  "
@@ -174,9 +174,10 @@ echo "controlling $roku"
 echo 'c for full control list'
 noEcho # turn tty echo off if debug=false
 
-if [ ${BASH_VERSION:0:1} -ge 4 ] && [ ${BASH_VERSION:2:1} -ge 4 ]; then
-  bash44=true
-fi
+# this logic is fucked, just set to false manually if using old version
+#if [ ${BASH_VERSION:0:1} -ge 4 ] && [ ${BASH_VERSION:2:1} -ge 4 ]; then
+#  bash44=true
+#fi
 
 while :; do
   getKey
@@ -215,7 +216,7 @@ while :; do
     'S') search; key='' ;;
     'a') setIP; key='' ;;
     'y') curl -d '' "$roku:8060/launch/$youtube"; key='' ;; # youtube
-    'd') debug; key='' ;;
+#    'd') debug; key='' ;;
     'c') controls; key='' ;;
     'Q') stty echo; exit 0 ;;
     *) key='' ;;
