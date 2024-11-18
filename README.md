@@ -41,7 +41,7 @@ show-**c**ontrols
 
 **h**ome
 
-**i**nfo-*
+**i**nfo-**\***
 
 **k**eyboard-mode
 
