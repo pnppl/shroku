@@ -37,8 +37,6 @@ By default the script is in normal/remote mode. Pressing 'k' puts the script in 
 
 show-**c**ontrols
 
-**d**ebug
-
 **f**ind-remote
 
 **h**ome
@@ -54,6 +52,8 @@ show-**c**ontrols
 **O**n
 
 **p**ower
+
+**Q**uit
 
 **r**eplay
 
